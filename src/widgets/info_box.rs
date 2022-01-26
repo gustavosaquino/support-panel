@@ -1,6 +1,7 @@
 use gtk::prelude::*;
 
-pub struct InfoBox(gtk::Box);
+#[derive(Clone)]
+pub struct InfoBox(pub gtk::Box);
 
 impl Default for InfoBox {
     fn default() -> Self {

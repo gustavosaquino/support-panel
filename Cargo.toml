@@ -28,5 +28,6 @@ version = "1.15.0"
 features = ["full"]
 
 [dependencies.cosmic-component-system]
-git = "https://github.com/pop-os/libcosmic"
-branch = "ccs"
+path = "../libcosmic/crates/component-system"
+# git = "https://github.com/pop-os/libcosmic"
+# branch = "ccs"

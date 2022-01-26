@@ -9,24 +9,28 @@ pub enum LogEvent {
 
 component! {
     /// Manages the log generating dialog.
-    pub struct LogDialog(()) {
+    pub struct LogDialog {
         pub dialog: Option<gtk::Dialog>,
         pub folder: Option<String>,
     }
 
     /// Widgets constructed by the view.
-    pub struct LogWidgets(gtk::Box) {
+    pub struct LogWidgets {
 
     }
 
     type Input = LogEvent;
     type Output = ();
 
-    fn init_view(self, args, input, output) {
+    type Root = gtk::Box {
+        gtk::Box::default()
+    };
+
+    fn init(_args: (), root, input, output) {
         unimplemented!()
     }
 
-    fn update(self, widgets, event, input, output) {
+    fn update(component, event) {
         unimplemented!()
     }
 }

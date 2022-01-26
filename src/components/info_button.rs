@@ -6,16 +6,22 @@ use gtk::prelude::*;
 
 use crate::widgets::{InfoBox, InfoDescription};
 
+type InitialParam = (String, String, gtk::SizeGroup);
+
 component! {
     #[derive(Default)]
-    pub struct InfoButton((String, String, gtk::SizeGroup)) {}
+    pub struct InfoButton {}
 
-    pub struct InfoButtonWidgets(gtk::Box) {}
+    pub struct InfoButtonWidgets {}
 
     type Input = ();
     type Output = ();
 
-    fn init_view(self, args, _input, output) {
+    type Root = gtk::Box {
+        InfoBox::default().0
+    };
+
+    fn init(args: InitialParam, root, input, output) {
         let (desc_label, button_label, sg) = args;
 
         ccs::view! {
@@ -25,23 +31,27 @@ component! {
         }
 
         ccs::view! {
-            root = InfoBox {
-                append: description.widget(),
+            button = gtk::Button {
+                set_label: &button_label,
 
-                append: button = &gtk::Button {
-                    set_label: &button_label,
-
-                    connect_clicked(output) => move |_| {
-                        let _ = output.send(());
-                    }
+                connect_clicked(output) => move |_| {
+                    let _ = output.send(());
                 }
             }
         }
 
+        root.append(description.widget());
+        root.append(&button);
+
         sg.add_widget(&button);
 
-        (InfoButtonWidgets {}, root.widget().clone())
+        ComponentInner {
+            model: InfoButton {},
+            widgets: InfoButtonWidgets {},
+            input,
+            output
+        }
     }
 
-    fn update(self, _widgets, _message, _input, _output) {}
+    fn update(_component, _message) {}
 }

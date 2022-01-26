@@ -1,8 +1,8 @@
 use cosmic_component_system::*;
-use cosmic_support_panel::*;
+use cosmic_support_panel::{components::SupportPanel, gresource};
 use gtk4::prelude::*;
 
-#[tokio::main(flavor = "current_thread")]
+#[tokio::main]
 async fn main() {
     let _ = gresource::init();
 
@@ -11,17 +11,9 @@ async fn main() {
         .cosmic_run(|app| {
             let window = gtk::ApplicationWindow::new(&app);
 
-            window.set_child(Some(
-                register(
-                    crate::components::SupportPanel {
-                        window: window.clone(),
-                        vendor: None,
-                    },
-                    (),
-                )
-                .ignore()
-                .widget(),
-            ));
+            let panel = SupportPanel::init(window.clone()).ignore();
+
+            window.set_child(Some(panel.widget()));
 
             window.show();
         });
